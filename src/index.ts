@@ -6,7 +6,6 @@ import startServer from './server';
 import {stations as stations} from './stations';
 import dbConnect from './db/dbConnect';
 import mongodb from "mongodb";
-import mongoose from 'mongoose';
 import User from './db/userModel';
 import Cards from './db/cardModel';
 import * as jwt from 'jsonwebtoken';
@@ -86,7 +85,7 @@ app.get('/users', async (req, res) => {
       return res.status(404).json({ message: 'No users found' });
     }
 
-    const usersData = users.map(user => ({
+    const usersData = users.map((user: { _id: any; email: any; password: any; }) => ({
       _id: user._id,
       email: user.email,
       password: user.password,
@@ -110,7 +109,7 @@ app.get('/cards', async (req, res) => {
       return res.status(404).json({ message: 'No cards found' });
     }
 
-    const cardsData = cards.map(card => ({
+    const cardsData = cards.map((card: { bal: any; idNums: any; stat: any; }) => ({
       bal: card.bal,
       idNums: card.idNums,  
       stat: card.stat,
