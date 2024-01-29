@@ -74,26 +74,24 @@ function dbConnect() {
         }
     });
 }
-// Example route to fetch data from the "users" collection
-app.get('/user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const users = yield UserModel.find();
-        res.json(users);
-    }
-    catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-}));
-// Example route to fetch data from the "cards" collection
-app.get('/card', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const cards = yield CardModel.find();
-        res.json(cards);
-    }
-    catch (error) {
-        console.error('Error fetching cards:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
-}));
+// // Example route to fetch data from the "users" collection
+// app.get('/user', async (req: Request, res: Response) => {
+//   try {
+//     const users: User[] = await UserModel.find();
+//     res.json(users);
+//   } catch (error) {
+//     console.error('Error fetching users:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
+// // Example route to fetch data from the "cards" collection
+// app.get ('/card', async (req: Request, res: Response) => {
+//   try {
+//     const cards: Card[] = await CardModel.find();
+//     res.json(cards);
+//   } catch (error) {
+//     console.error('Error fetching cards:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
 exports.default = dbConnect;

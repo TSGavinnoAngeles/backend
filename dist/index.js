@@ -85,8 +85,10 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(401).json({ message: 'Invalid credentials' });
         }
         else {
-            const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-            res.json({ message: 'Login successful', token });
+            const token = jwt.sign({
+                userId: user._id,
+            }, secretKey, { expiresIn: '1h' });
+            res.status(200).json({ message: 'Login successful', token });
         }
     }
     catch (error) {
@@ -173,16 +175,32 @@ app.delete('/delCards/:idNums', (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).json({ message: 'Internal Server Error' });
     }
 }));
-app.post('/addCards', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/addcards', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { idNums, bal, stat } = req.body;
+    if (idNums === null || bal === null || stat === null) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+    else {
+        try {
+            // Create a new card document
+            const newCard = yield cardModel_1.default.create({
+                idNums,
+                bal,
+                stat,
+            });
+            res.json({ message: 'Card added successfully', newCard });
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    }
+}));
+app.get('/checkIdExists/:idNums', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { idNums } = req.params;
     try {
-        // Create a new card document
-        const newCard = yield cardModel_1.default.create({
-            idNums,
-            bal,
-            stat,
-        });
-        res.json({ message: 'Card added successfully', newCard });
+        const existingCard = yield cardModel_1.default.findOne({ idNums });
+        res.json({ exists: existingCard !== null });
     }
     catch (error) {
         console.error(error);
